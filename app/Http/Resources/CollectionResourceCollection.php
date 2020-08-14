@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\ProductFile;
-use App\Product;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ProductResourceCollection extends ResourceCollection
+class CollectionResourceCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -16,9 +14,6 @@ class ProductResourceCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return [
-            'data' =>parent::toArray($request),
-            'files'=> Product::find(1)->files(),
-        ];
+        return parent::toArray($request);
     }
 }

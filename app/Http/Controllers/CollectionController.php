@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Collection;
+use App\Http\Resources\CollectionResource;
+use App\Http\Resources\CollectionResourceCollection;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\ProductResourceCollection;
-use App\Product;
-use App\ProductFile;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class CollectionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): ProductResourceCollection
+    public function index(): CollectionResourceCollection
     {
-        return new ProductResourceCollection(Product::paginate());
+        return new CollectionResourceCollection(Collection::paginate());
     }
 
     /**
@@ -53,44 +53,29 @@ class ProductController extends Controller
             'seo_description'       => ['nullable', 'min:10'],
             'social_title'          => ['nullable', 'min:5'],
             'social_description'    => ['nullable', 'min:10'],
-            'files'                 => 'required',
-            'files.*'               => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
-        $product = Product::create($request->all());
-        if ($request->hasfile('files')) {
-            foreach ($request->file('files') as $file) {
-                $name = time() . '-' . $file->getClientOriginalName();
-                $path = public_path() . '/products/files/';
-                $file->move($path, $name);
-                ProductFile::create([
-                    'path'          => $path . $name,
-                    'type'          => $file->extension(),
-                    'size'          => $file->getSize(),
-                    'product_id'    => $product->id
-                ]);
-            }
-        }
-        return new ProductResource($product);
+        $collection = Collection::create($request->all());
+        return new CollectionResource($collection);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Collection  $collection
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product): ProductResource
+    public function show(Collection $collection): CollectionResource
     {
-        return new ProductResource($product);
+        return new CollectionResource($collection);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Collection  $collection
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Collection $collection)
     {
         //
     }
@@ -99,24 +84,24 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
+     * @param  \App\Collection  $collection
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product): ProductResource
+    public function update(Request $request, Collection $collection)
     {
-        $product->update($request->all());
-        return new ProductResource($product);
+        $collection->update($request->all());
+        return new CollectionResource($collection);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Collection  $collection
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Collection $collection)
     {
-        $product->delete();
+        $collection->delete();
         return response()->json(['status' => 200, 'message' => 'product deleted successfully']);
     }
 }

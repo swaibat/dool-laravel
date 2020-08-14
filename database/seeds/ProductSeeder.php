@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class ProductSeeder extends Seeder
@@ -13,23 +14,24 @@ class ProductSeeder extends Seeder
     public function run()
     {
         DB::table('products')->insert([
-            'title'                 => 'title',
-            'price'                 => '2000',
+            'title'                 => 'Intex LED-3216 80 cm (32) HD Ready (HDR) LED Television',
+            'slug'                  =>  Str::slug('Intex LED-3216 80 cm (32) HD Ready (HDR) LED Television', '-'),
+            'price'                 => '23999',
             'discount'              => '30',
             'discount_type'         => 'percentage',
             'sku'                   => 'DL-13243HD',
-            'collection_id'         => '1,3',
+            'collection_id'         => '[1,2]',
             'vendor_id'             => '1',
-            'description'           => 'description',
+            'description'           => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dui ut ornare lectus sit.',
             'category_id'           => '1',
             'status'                => 'status',
-            'seo_title'             => 'seo_title',
-            'seo_description'       => 'seo_description',
+            'seo_title'             => 'Intex LED-3216 80 cm (32) HD Ready (HDR) LED Television',
+            'seo_description'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dui ut ornare lectus sit.',
             'social_title'          => 'social_title',
             'social_description'    => 'social_description',
-            'sizes'                 => 'sizes',
-            'materials'             => 'materials',
-            'colors'                => 'colors'
+            'sizes'                 => '[24,14,32,45,50]',
+            'materials'             => '[]',
+            'colors'                => '["grey","black","silver"]'
         ]);
     }
 }
