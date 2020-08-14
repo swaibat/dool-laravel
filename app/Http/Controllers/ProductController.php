@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductResourceCollection;
+use Illuminate\Support\Str;
 use App\Product;
 use App\ProductFile;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class ProductController extends Controller
      */
     public function index(): ProductResourceCollection
     {
-        return new ProductResourceCollection(Product::paginate());
+        return new ProductResourceCollection(Product::all());
     }
 
     /**
@@ -56,14 +57,15 @@ class ProductController extends Controller
             'files'                 => 'required',
             'files.*'               => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+        $request['slug'] = Str::slug($request['title']);
         $product = Product::create($request->all());
         if ($request->hasfile('files')) {
-            foreach ($request->file('files') as $file) {
+            foreach ($request->file('files[]') as $file) {
                 $name = time() . '-' . $file->getClientOriginalName();
                 $path = public_path() . '/products/files/';
                 $file->move($path, $name);
                 ProductFile::create([
-                    'path'          => $path . $name,
+                    'name'          => $name,
                     'type'          => $file->extension(),
                     'size'          => $file->getSize(),
                     'product_id'    => $product->id

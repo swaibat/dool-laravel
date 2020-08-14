@@ -15,9 +15,9 @@ class CreateProductFilesTable extends Migration
     {
         Schema::create('product_files', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('type');
             $table->string('size');
-            $table->string('path');
             $table->timestamps();
             $table->bigInteger('product_id')->unsigned()->index();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

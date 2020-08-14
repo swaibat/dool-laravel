@@ -15,6 +15,8 @@ class CollectionSeeder extends Seeder
         DB::table('collections')->insert([
             'name'         => 'sponsored',
             'image'        => '2000',
+            'created_at'   => now(),
+            'updated_at'   => now(),
         ]);
     }
 }

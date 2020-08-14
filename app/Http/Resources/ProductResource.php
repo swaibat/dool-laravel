@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Product;
 
 class ProductResource extends JsonResource
 {
@@ -14,6 +15,8 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $product = parent::toArray($request);
+        $product['files'] = Product::find($this->id)->files;
+        return $product;
     }
 }

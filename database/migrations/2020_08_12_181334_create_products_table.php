@@ -22,12 +22,13 @@ class CreateProductsTable extends Migration
             $table->enum('discount_type', ['price', 'percentage']);
             $table->string('sku')->nullable();
             $table->jsonb('collection_id')->nullable();
+            $table->foreign('collection_id')->references('id')->on('collections');
             $table->string('vendor_id');
             $table->longText('description');
             $table->string('category_id');
             $table->string('status');
-            $table->string('seo_title');
-            $table->longText('seo_description');
+            $table->string('seo_title')->nullable();
+            $table->longText('seo_description')->nullable();
             $table->string('social_title')->nullable();
             $table->longText('social_description')->nullable();
             $table->jsonb('sizes')->nullable();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CollectionResource extends JsonResource
@@ -14,6 +15,9 @@ class CollectionResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $collection = parent::toArray($request);
+        $collection['products'] = new ProductResourceCollection(Product::whereJsonContains('collection_id', $this->id)->get());
+        return $collection;
+
     }
 }

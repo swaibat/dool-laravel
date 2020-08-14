@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $table ='products';
+    protected $primaryKey = 'id';
     /**
      * The attributes that are mass assignable.
      *
@@ -15,7 +17,11 @@ class Product extends Model
 
     public function files()
     {
-      return $this->hasMany('App\ProductFile');
-    //   return $this->hasMany(ProductFile::class);
+      return $this->hasMany(ProductFile::class);
+    }
+
+    public function collection()
+    {
+      return $this->belongsTo(Collection::class);
     }
 }

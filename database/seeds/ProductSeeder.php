@@ -31,7 +31,9 @@ class ProductSeeder extends Seeder
             'social_description'    => 'social_description',
             'sizes'                 => '[24,14,32,45,50]',
             'materials'             => '[]',
-            'colors'                => '["grey","black","silver"]'
+            'colors'                => '["grey","black","silver"]',
+            'created_at'            => now(),
+            'updated_at'            => now(),
         ]);
     }
 }

@@ -11,7 +11,7 @@ class ProductFile extends Model
      *
      * @var array
      */
-    protected $fillable = ['type','size','path','product_id'];
+    protected $fillable = ['name', 'type','size','product_id'];
 
     public function product()
     {
