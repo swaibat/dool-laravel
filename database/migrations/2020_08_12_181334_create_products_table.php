@@ -16,22 +16,24 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('price');
+            $table->string('slug');
+            $table->float('price');
             $table->string('discount');
-            $table->string('discount_type');
+            $table->enum('discount_type', ['price', 'percentage']);
             $table->string('sku')->nullable();
-            $table->string('collection_id')->nullable();
+            $table->jsonb('collection_id')->nullable();
+            $table->foreign('collection_id')->references('id')->on('collections');
             $table->string('vendor_id');
-            $table->string('description');
+            $table->longText('description');
             $table->string('category_id');
             $table->string('status');
-            $table->string('seo_title');
-            $table->string('seo_description');
+            $table->string('seo_title')->nullable();
+            $table->longText('seo_description')->nullable();
             $table->string('social_title')->nullable();
-            $table->string('social_description')->nullable();
-            $table->string('sizes')->nullable();
-            $table->string('materials')->nullable();
-            $table->string('colors')->nullable();
+            $table->longText('social_description')->nullable();
+            $table->jsonb('sizes')->nullable();
+            $table->jsonb('materials')->nullable();
+            $table->jsonb('colors')->nullable();
             $table->timestamps();
         });
     }
