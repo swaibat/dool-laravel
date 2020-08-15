@@ -22,7 +22,6 @@ class CreateProductsTable extends Migration
             $table->enum('discount_type', ['price', 'percentage']);
             $table->string('sku')->nullable();
             $table->jsonb('collection_id')->nullable();
-            $table->foreign('collection_id')->references('id')->on('collections');
             $table->string('vendor_id');
             $table->longText('description');
             $table->string('category_id');

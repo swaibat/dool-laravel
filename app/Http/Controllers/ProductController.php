@@ -62,7 +62,7 @@ class ProductController extends Controller
         if ($request->hasfile('files')) {
             foreach ($request->file('files[]') as $file) {
                 $name = time() . '-' . $file->getClientOriginalName();
-                $path = public_path() . '/products/files/';
+                $path = public_path() . 'uploads/products/';
                 $file->move($path, $name);
                 ProductFile::create([
                     'name'          => $name,
