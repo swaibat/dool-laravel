@@ -7,6 +7,7 @@ use App\Http\Resources\CollectionResource;
 use App\Http\Resources\CollectionResourceCollection;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CollectionController extends Controller
 {
@@ -39,21 +40,14 @@ class CollectionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'                 => ['required', 'unique:products', 'max:255', 'min:5'],
-            'price'                 => ['required', 'min:0.01'],
-            'discount_type'         => ['min:0.01'],
-            'discount'              => ['min:0.01'],
-            'sku'                   => ['min:3'],
-            'collection_id'         => ['nullable'],
-            'vendor_id'             => ['integer'],
-            'description'           => ['min:10'],
-            'category_id'           => ['integer'],
-            'status'                => ['min:0.01'],
-            'seo_title'             => ['nullable', 'min:5'],
-            'seo_description'       => ['nullable', 'min:10'],
-            'social_title'          => ['nullable', 'min:5'],
-            'social_description'    => ['nullable', 'min:10'],
+            'name'                 => ['required', 'unique:collections', 'max:255', 'min:3'],
+            'image.*'               => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+        $file       = $request->file('file');
+        $name       = time() . '-' . $file->getClientOriginalName();
+        $path       = public_path() . '/uploads/collections/';
+        $file->move($path, $name);
+        $request['image'] = $name;
         $collection = Collection::create($request->all());
         return new CollectionResource($collection);
     }
