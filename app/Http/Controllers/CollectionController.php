@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Storage;
 
 class CollectionController extends Controller
 {
+    private $validation = [
+        'name'                 => ['required', 'unique:collections', 'max:255', 'min:3'],
+        'image.*'               => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -39,10 +43,7 @@ class CollectionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'                 => ['required', 'unique:collections', 'max:255', 'min:3'],
-            'image.*'               => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
+        $request->validate($this->validation);
         $file       = $request->file('file');
         $name       = time() . '-' . $file->getClientOriginalName();
         $path       = public_path() . '/uploads/collections/';
@@ -83,6 +84,7 @@ class CollectionController extends Controller
      */
     public function update(Request $request, Collection $collection)
     {
+        $request->validate($this->validation);
         $collection->update($request->all());
         return new CollectionResource($collection);
     }
