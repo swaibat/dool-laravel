@@ -21,3 +21,4 @@ Route::resource('products', 'ProductController');
 Route::resource('collections', 'CollectionController');
 Route::resource('coupons', 'CouponController');
 Route::resource('categories', 'CategoryController');
+Route::resource('payments', 'PaymentController');
