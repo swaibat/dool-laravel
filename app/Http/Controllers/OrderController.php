@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Coupon;
-use App\Http\Resources\CouponResourceCollection;
-use App\Http\Resources\CouponResource;
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderResourceCollection;
+use App\Order;
 use Illuminate\Http\Request;
 
-class CouponController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class CouponController extends Controller
      */
     public function index()
     {
-        return new CouponResourceCollection(Coupon::all());
+        return new OrderResourceCollection(Order::all());
     }
 
     /**
@@ -37,29 +37,27 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $coupon = Coupon::create($request->all());
-        return new CouponResource($coupon);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Coupon  $coupon
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Coupon $coupon): CouponResource
+    public function show(Order $order)
     {
-        return new CouponResource($coupon);
+        return new OrderResource($order);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Coupon  $coupon
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function edit(Coupon $coupon)
+    public function edit(Order $order)
     {
         //
     }
@@ -68,24 +66,23 @@ class CouponController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Coupon  $coupon
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Coupon $coupon)
+    public function update(Request $request, Order $order)
     {
-        $coupon->update($request->all());
-        return new CouponResource($coupon);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Coupon  $coupon
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Coupon $coupon)
+    public function destroy(Order $order)
     {
-        $coupon->delete();
-        return response()->json(['status' => 200, 'message' => 'coupon deleted successfully']);
+        $order->delete();
+        return response()->json(['status' => 200, 'message' => 'order deleted successfully']);
     }
 }

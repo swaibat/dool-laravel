@@ -12,6 +12,30 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     /**
+     * products create and update validation.
+     *
+     * @return validation_object
+     */
+    private $validation =[
+        'title'                 => ['required', 'unique:products', 'max:255', 'min:5'],
+        'price'                 => ['required', 'min:0.01'],
+        'discount_type'         => ['min:0.01'],
+        'discount'              => ['min:0.01'],
+        'sku'                   => ['min:3'],
+        'collection_id'         => ['nullable'],
+        'vendor_id'             => ['integer'],
+        'description'           => ['min:10'],
+        'category_id'           => ['integer'],
+        'status'                => ['min:0.01'],
+        'seo_title'             => ['nullable', 'min:5'],
+        'seo_description'       => ['nullable', 'min:10'],
+        'social_title'          => ['nullable', 'min:5'],
+        'social_description'    => ['nullable', 'min:10'],
+        'files'                 => 'required',
+        'files.*'               => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+    ];
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -39,28 +63,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title'                 => ['required', 'unique:products', 'max:255', 'min:5'],
-            'price'                 => ['required', 'min:0.01'],
-            'discount_type'         => ['min:0.01'],
-            'discount'              => ['min:0.01'],
-            'sku'                   => ['min:3'],
-            'collection_id'         => ['nullable'],
-            'vendor_id'             => ['integer'],
-            'description'           => ['min:10'],
-            'category_id'           => ['integer'],
-            'status'                => ['min:0.01'],
-            'seo_title'             => ['nullable', 'min:5'],
-            'seo_description'       => ['nullable', 'min:10'],
-            'social_title'          => ['nullable', 'min:5'],
-            'social_description'    => ['nullable', 'min:10'],
-            'files'                 => 'required',
-            'files.*'               => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
+        $request->validate($this->validation);
         $request['slug'] = Str::slug($request['title']);
         $product = Product::create($request->all());
         if ($request->hasfile('files')) {
-            foreach ($request->file('files[]') as $file) {
+            foreach ($request->file('files') as $file) {
                 $name = time() . '-' . $file->getClientOriginalName();
                 $path = public_path() . 'uploads/products/';
                 $file->move($path, $name);
@@ -106,6 +113,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product): ProductResource
     {
+        $request->validate($this->validation);
         $product->update($request->all());
         return new ProductResource($product);
     }

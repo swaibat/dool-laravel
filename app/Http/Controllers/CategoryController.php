@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Coupon;
-use App\Http\Resources\CouponResourceCollection;
-use App\Http\Resources\CouponResource;
+use App\Category;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoryResourceCollection;
 use Illuminate\Http\Request;
 
-class CouponController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class CouponController extends Controller
      */
     public function index()
     {
-        return new CouponResourceCollection(Coupon::all());
+        return new CategoryResourceCollection(Category::all());
     }
 
     /**
@@ -37,29 +37,27 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $coupon = Coupon::create($request->all());
-        return new CouponResource($coupon);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Coupon  $coupon
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Coupon $coupon): CouponResource
+    public function show(Category $category)
     {
-        return new CouponResource($coupon);
+        return new CategoryResource($category);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Coupon  $coupon
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Coupon $coupon)
+    public function edit(Category $category)
     {
         //
     }
@@ -68,24 +66,24 @@ class CouponController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Coupon  $coupon
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Coupon $coupon)
+    public function update(Request $request, Category $category)
     {
-        $coupon->update($request->all());
-        return new CouponResource($coupon);
+        $category->update($request->all());
+        return new CategoryResource($category);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Coupon  $coupon
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Coupon $coupon)
+    public function destroy(Category $category)
     {
-        $coupon->delete();
-        return response()->json(['status' => 200, 'message' => 'coupon deleted successfully']);
+        $category->delete();
+        return response()->json(['status' => 200, 'message' => 'category deleted successfully']);
     }
 }
