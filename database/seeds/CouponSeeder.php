@@ -23,7 +23,7 @@ class CouponSeeder extends Seeder
             'apply_value'   => '[1]',
             'buy_x_get_y'   => null,
             'user_id'       => 1,
-            'uses'          => null,
+            'uses_limit'    => null,
             'created_at'    => now(),
             'updated_at'    => now(),
         ]);

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 // require_once 'vendor/autoload.php';
 
+use App\Address;
 use App\Payment;
+use App\Order;
 use Illuminate\Http\Request;
 use App\PayPalHelper;
 
@@ -139,7 +141,7 @@ class PaymentController extends Controller
     {
         $paypalHelper = new PayPalHelper();
         $order = $paypalHelper->orderCapture()['data'];
-        $address = [
+        $address = Address::create([
             'user_id'           => isset($_SESSION['user']) ?: $_SESSION['user']['id'],
             'contact_names'     => $order['purchase_units'][0]['shipping']['name']['full_name'],
             'address_line_1'    => $order['purchase_units'][0]['shipping']['address']['address_line_1'],
@@ -148,9 +150,8 @@ class PaymentController extends Controller
             'admin_area_1'      => $order['purchase_units'][0]['shipping']['address']['admin_area_1'],
             'postal_code'       => $order['purchase_units'][0]['shipping']['address']['postal_code'],
             'country_code'      => $order['purchase_units'][0]['shipping']['address']['country_code'],
-        ];
-        $this->address->save($address);
-        $payment = [
+        ]);
+        $payment = Payment::create([
             'txn_id'            => $order['id'],
             'user_id'           => isset($_SESSION['user']) ?: $_SESSION['user']['id'],
             'payment_method'    => 'paypal',
@@ -161,10 +162,13 @@ class PaymentController extends Controller
             'address_id'        => $address->id,
             'created_at'        => $order['purchase_units'][0]['payments']['captures'][0]['create_time'],
             'updated_at'        => $order['purchase_units'][0]['payments']['captures'][0]['update_time']
-        ];
+        ]);
 
-        Payment::create($payment);
-        $_SESSION['order'] = [$address, $payment];
+        Order::create([
+            'user_id'           => '1',
+            'address_id'        => $address->id,
+            'payment_id'        => $payment->id,
+        ]);
         return $this->response->setJSON(['status' => 201, 'message' => 'Order created successfully']);
     }
 

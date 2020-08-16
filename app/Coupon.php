@@ -21,8 +21,6 @@ class Coupon extends Model
         'apply_to',
         'apply_value',
         'user_id',
-        'uses',
-        'created_at',
-        'updated_at',
+        'uses_limit'
     ];
 }

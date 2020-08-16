@@ -24,10 +24,11 @@ class CreateCouponsTable extends Migration
             $table->enum('apply_to', ['all_products', 'specific_products', 'specific_collection']);
             $table->jsonb('apply_value')->nullable();
             $table->string('buy_x_get_y')->nullable();
-            $table->string('uses')->nullable();
-            $table->timestamps();
-            $table->bigInteger('user_id')->unsigned()->index();
+            $table->string('uses_limit')->nullable();
+            $table->bigInteger('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
+
         });
     }
 
