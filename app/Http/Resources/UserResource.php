@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Favourite;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Product;
 
-class ProductResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +15,8 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        $product = parent::toArray($request);
-        $product['files'] = $this->files;
-        return $product;
+        $user = parent::toArray($request);
+        $user['favourite'] = new FavouriteResourceCollection(Favourite::where('user_id',$this->id)->get());
+        return $user;
     }
 }

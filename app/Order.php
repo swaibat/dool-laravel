@@ -20,18 +20,12 @@ class Order extends Model
         'user_id',
     ];
 
-    public function address()
-    {
-        return $this->hasOne(Address::class);
-    }
-
-    public function payment()
-    {
-        return $this->hasOne(Payment::class);
-    }
-
-    public function user()
-    {
-        return $this->hasOne(User::class);
-    }
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'user_id','address_id','payment_id','products_list'
+    ];
 }
