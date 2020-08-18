@@ -23,3 +23,11 @@ Route::resource('coupons', 'CouponController');
 Route::resource('categories', 'CategoryController');
 Route::resource('payments', 'PaymentController');
 Route::resource('orders', 'OrderController');
+Route::resource('favourite', 'FavouriteController');
+Route::resource('users', 'UserController');
+// Route::group(['prefix' => 'Auth'], function () {
+//     Route::post('register', 'RegisterController');
+//     Route::post('login', 'AuthController@login');
+//     Route::get('logout', 'AuthController@logout');
+//     Route::get('user', 'AuthController@getAuthUser');
+// });
