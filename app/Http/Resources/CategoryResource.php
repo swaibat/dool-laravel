@@ -19,7 +19,7 @@ class CategoryResource extends JsonResource
         if (!$this->parent_id) {
             $sub_id = [$this->id];
             foreach ($this->subs as $sub) {
-                $sub['products'] = Product::where('category_id', $sub['id'])->get();
+                $sub['products'] = new ProductResourceCollection(Product::where('category_id', $sub['id'])->get());
                 $sub_id[] =  $sub['id'];
             }
             $data = [
@@ -27,7 +27,7 @@ class CategoryResource extends JsonResource
                 'name'              => $this->name,
                 'slug'              => $this->slug,
                 'sub'               => $this->subs,
-                'products'          => Product::whereIn('category_id', $sub_id)->get(),
+                'products'          => new ProductResourceCollection(Product::whereIn('category_id', $sub_id)->get()),
                 'created_at'        => $this->created_at,
                 'updated_at'        => $this->updated_at,
             ];

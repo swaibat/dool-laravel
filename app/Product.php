@@ -15,6 +15,15 @@ class Product extends Model
      */
     protected $fillable = ['title', 'slug', 'price', 'discount', 'discount_type', 'sku', 'collection_id', 'vendor_id', 'description', 'category_id', 'status', 'seo_title', 'seo_description', 'social_title', 'social_description', 'sizes', 'materials', 'colors'];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'vendor_id', 'category_id', 'collection_id'
+    ];
+
     public function files()
     {
         return $this->hasMany(ProductFile::class);

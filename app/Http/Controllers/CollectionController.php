@@ -8,31 +8,34 @@ use App\Http\Resources\CollectionResourceCollection;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class CollectionController extends Controller
 {
-    private $validation = [
-        'name'                 => ['required', 'unique:collections', 'max:255', 'min:3'],
-        'image.*'               => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-    ];
+    /**
+     * Get a validator for an incoming request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name'                 => ['required', 'unique:collections', 'max:255', 'min:3'],
+            'image.*'               => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): CollectionResourceCollection
+    public function index()
     {
-        return new CollectionResourceCollection(Collection::paginate());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json([
+            'status' => 200,
+            'data' => new CollectionResourceCollection(Collection::paginate())
+        ]);
     }
 
     /**
@@ -43,14 +46,14 @@ class CollectionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->validation);
-        $file       = $request->file('file');
-        $name       = time() . '-' . $file->getClientOriginalName();
-        $path       = public_path() . '/uploads/collections/';
-        $file->move($path, $name);
-        $request['image'] = $name;
-        $collection = Collection::create($request->all());
-        return new CollectionResource($collection);
+        $this->validator($request->all())->validate();
+        $path = $request->file('image')->store('collection');
+        $collection = Collection::create(['name' => $request->input('name'), 'image' => $path]);
+        return response()->json([
+            'status' => 201,
+            'message' => 'collection created successfully',
+            'data' => new CollectionResource($collection)
+        ]);
     }
 
     /**
@@ -59,20 +62,12 @@ class CollectionController extends Controller
      * @param  \App\Collection  $collection
      * @return \Illuminate\Http\Response
      */
-    public function show(Collection $collection): CollectionResource
+    public function show(Collection $collection)
     {
-        return new CollectionResource($collection);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Collection  $collection
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Collection $collection)
-    {
-        //
+        return response()->json([
+            'status' => 200,
+            'data' => new CollectionResource($collection)
+        ]);
     }
 
     /**
@@ -84,9 +79,14 @@ class CollectionController extends Controller
      */
     public function update(Request $request, Collection $collection)
     {
-        $request->validate($this->validation);
-        $collection->update($request->all());
-        return new CollectionResource($collection);
+        $this->validator($request->all())->validate();
+        $path = $request->file('image')->store('collection');
+        $collection = Collection::create(['name' => $request->input('name'), 'image' => $path]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'collection updated successfully',
+            'data' => new CollectionResource($collection)
+        ]);
     }
 
     /**
@@ -98,6 +98,6 @@ class CollectionController extends Controller
     public function destroy(Collection $collection)
     {
         $collection->delete();
-        return response()->json(['status' => 200, 'message' => 'product deleted successfully']);
+        return response()->json(['status' => 200, 'message' => 'collection deleted successfully']);
     }
 }
