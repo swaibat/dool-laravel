@@ -22,7 +22,6 @@ class CreateProductsTable extends Migration
             $table->enum('discount_type', ['price', 'percentage']);
             $table->string('sku')->nullable();
             $table->jsonb('collection_id')->nullable();
-            $table->string('vendor_id');
             $table->longText('description');
             $table->string('category_id');
             $table->string('status');
@@ -33,6 +32,8 @@ class CreateProductsTable extends Migration
             $table->jsonb('sizes')->nullable();
             $table->jsonb('materials')->nullable();
             $table->jsonb('colors')->nullable();
+            $table->bigInteger('user_id')->unsigned()->index()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

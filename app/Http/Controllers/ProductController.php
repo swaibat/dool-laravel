@@ -27,7 +27,7 @@ class ProductController extends Controller
             'discount'              => ['min:0.01'],
             'sku'                   => ['min:3'],
             'collection_id'         => ['nullable'],
-            'vendor_id'             => ['integer'],
+            'user_id'             => ['integer'],
             'description'           => ['min:10'],
             'category_id'           => ['integer'],
             'status'                => ['min:0.01'],
