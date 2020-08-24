@@ -18,7 +18,7 @@ class ProductResource extends JsonResource
     {
         $product = parent::toArray($request);
         // $product['collection'] = Collection::whereIn('id', json_decode($this->collection_id))->get();
-        $product['vendor'] = User::find($this->user_id)->first();
+        // $product['vendor'] = User::find($this->user_id)->first();
         $product['files'] = $this->files;
         return $product;
     }

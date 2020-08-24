@@ -15,6 +15,7 @@ class StoreSeeder extends Seeder
         DB::table('stores')->insert([
             [
                 'name'              => 'dool',
+                'slug'              =>  'dool',
                 'address'           => 'new york, UK',
                 'support_phone'     => '0758307272',
                 'theme_id'          => 1,
@@ -25,7 +26,8 @@ class StoreSeeder extends Seeder
                 'updated_at'        => now(),
             ],
             [
-                'name'              => 'Conroy PLC',
+                'name'              => 'Conroy',
+                'slug'              => 'conroy',
                 'address'           => 'new york, UK',
                 'support_phone'     => '+79(0)9583078456',
                 'theme_id'          => 1,

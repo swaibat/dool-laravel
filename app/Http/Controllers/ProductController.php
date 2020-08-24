@@ -27,7 +27,7 @@ class ProductController extends Controller
             'discount'              => ['min:0.01'],
             'sku'                   => ['min:3'],
             'collection_id'         => ['nullable'],
-            'user_id'             => ['integer'],
+            'user_id'               => ['integer'],
             'description'           => ['min:10'],
             'category_id'           => ['integer'],
             'status'                => ['min:0.01'],
@@ -64,14 +64,16 @@ class ProductController extends Controller
         $this->validator($request->all())->validate();
         $request['slug'] = Str::slug($request['title']);
         $product = Product::create($request->all());
-        foreach ($request->file('files') as $file) {
-            $path = $file->store('products');
-            ProductFile::create([
-                'name'          => $path,
-                'type'          => $file->extension(),
-                'size'          => $file->getSize(),
-                'product_id'    => $product->id
-            ]);
+        if ($request->hasfile('files')) {
+            foreach ($request->file('files') as $file) {
+                $path = $file->store('public/products');
+                ProductFile::create([
+                    'name'          => Str::of($path)->replaceFirst('public', '/storage'),
+                    'type'          => $file->extension(),
+                    'size'          => $file->getSize(),
+                    'product_id'    => $product->id
+                ]);
+            }
         }
         return response()->json([
             'status' => 201,

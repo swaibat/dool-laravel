@@ -4,11 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\StoreResource;
 use App\Http\Resources\StoreResourceCollection;
+use Illuminate\Support\Str;
 use App\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class StoreController extends Controller
 {
+    /**
+     * Get a validator for an incoming request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name'                  => ['required', 'unique:stores', 'max:255', 'min:3'],
+            'address'               => ['required'],
+            'support_phone'         => ['nullable'],
+            'theme_id'              => ['nullable'],
+            'category_id'           => ['required'],
+            'user_id'               => ['nullable'],
+            'about_text'            => ['nullable'],
+        ]);
+    }
      /**
      * Display a listing of the resource.
      *
@@ -20,16 +40,6 @@ class StoreController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -37,7 +47,8 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-
+        $this->validator($request->all())->validate();
+        $request['slug'] = Str::slug($request['name']);
         $store = Store::create($request->all());
         return new StoreResource($store);
     }
@@ -51,17 +62,6 @@ class StoreController extends Controller
     public function show(Store $store): StoreResource
     {
         return new StoreResource($store);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Store  $store
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Store $store)
-    {
-        //
     }
 
     /**
