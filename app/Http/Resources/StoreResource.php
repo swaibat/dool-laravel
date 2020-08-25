@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Category;
+use App\Gallery;
 use App\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -39,22 +40,8 @@ class StoreResource extends JsonResource
                 ];
             }
         }
+        $store['gallery'] = new GalleryResourceCollection(Gallery::where('user_id', $this->user_id)->get());
         $store['categories'] = $data;
-
-
-        // $products = [];
-        // foreach ($store['category'] as $category) {
-        //     if (!empty($category['products'])) {
-        //         foreach ($category['products'] as $product) {
-        //             if ($product['user_id'] == $category->user_id) {
-        //                 $products[] = $product;
-        //             } else {
-        //                 $products[] = null;
-        //             }
-        //         }
-        //     }
-        // }
-        // $store['category']['products'] = $products;
         return $store;
     }
 }

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import App from './components/App';
+import Home from './components/Home';
 import Products from './components/Products';
 import ProductView from './components/ProductView';
 import ShippingAdress from './components/ShippingAdress';
@@ -8,13 +8,14 @@ import PaymentMethods from './components/PaymentMethods';
 import Stores from './components/Stores';
 import StoreView from './components/StoreView';
 import Cart from './components/Cart';
+import Register from './components/Register';
 Vue.use(VueRouter);
 
 export default new VueRouter({
 	routes: [
 		{
 			path: '/',
-			component: App,
+			component: Home,
 		},
 		{
 			path: '/products',
@@ -43,7 +44,11 @@ export default new VueRouter({
 		{
 			path: '/stores/:slug',
 			component: StoreView,
-		}
+		},
+		{
+			path: '/register',
+			component: Register,
+		},
 	],
 	mode: 'history',
 });

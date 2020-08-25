@@ -10,6 +10,17 @@
 					<li class="list-group-item">Address: {{ store.address }}</li>
 					<li class="list-group-item">contact: {{ store.support_phone }}</li>
 					<li class="list-group-item">about: {{ store.about_text }}</li>
+					<li class="list-group-item">
+						<p>gallery</p>
+						<div v-if="store.gallery">
+							<div v-bind:key="gallery.id" v-for="gallery in store.gallery">
+								{{ gallery.name }}
+								<span v-if="gallery.files[0]">
+									<img width="50" class="rounded ml-2" v-bind:key="file.id" v-for="file in gallery.files" :src="file.path" alt="" />
+								</span>
+							</div>
+						</div>
+					</li>
 				</ul>
 			</div>
 			<div class="card-footer d-flex justify-content-between">
@@ -25,7 +36,9 @@ export default {
 	name: 'Store',
 	data() {
 		return {
-			store: {},
+			store: {
+				gallery: [],
+			},
 		};
 	},
 	mounted() {

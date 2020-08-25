@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Collection;
+use App\Store;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\User;
 
@@ -18,7 +19,7 @@ class ProductResource extends JsonResource
     {
         $product = parent::toArray($request);
         // $product['collection'] = Collection::whereIn('id', json_decode($this->collection_id))->get();
-        // $product['vendor'] = User::find($this->user_id)->first();
+        $product['vendor'] = Store::where('user_id', $this->user_id)->firstOrFail();
         $product['files'] = $this->files;
         return $product;
     }
