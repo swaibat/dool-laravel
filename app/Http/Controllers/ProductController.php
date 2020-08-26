@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductResourceCollection;
+use App\Http\Resources\ProductResource;
 use Illuminate\Support\Str;
 use App\Product;
-use App\ProductFile;
+use App\StoreFiles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -21,20 +21,20 @@ class ProductController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'title'                 => ['required', 'unique:products', 'max:255', 'min:5'],
-            'price'                 => ['required', 'min:0.01'],
-            'discount_type'         => ['min:0.01'],
-            'discount'              => ['min:0.01'],
-            'sku'                   => ['min:3'],
-            'collection_id'         => ['nullable'],
-            'user_id'               => ['integer'],
-            'description'           => ['min:10'],
-            'category_id'           => ['integer'],
-            'status'                => ['min:0.01'],
-            'seo_title'             => ['nullable', 'min:5'],
-            'seo_description'       => ['nullable', 'min:10'],
-            'social_title'          => ['nullable', 'min:5'],
-            'social_description'    => ['nullable', 'min:10'],
+            'title'                 => 'required|unique:products|max:255|min:5',
+            'price'                 => 'required|min:0.01',
+            'discount_type'         => 'min:0.01',
+            'discount'              => 'min:0.01',
+            'sku'                   => 'min:3',
+            'collection_id'         => 'nullable|exists:App\Collection,id',
+            'description'           => 'min:10',
+            'category_id'           => 'integer|exists:App\Category,id',
+            'store_id'              => 'integer|exists:App\Store,id',
+            'status'                => 'min:0.01',
+            'seo_title'             => 'nullable|min:5',
+            'seo_description'       => 'nullable|min:10',
+            'social_title'          => 'nullable|min:5',
+            'social_description'    => 'nullable|min:10',
             'files'                 => 'required',
             'files.*'               => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
@@ -46,6 +46,19 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {
+        return response()->json([
+            'status' => 200,
+            'data' => new ProductResourceCollection(Product::all())
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function storeItems()
     {
         return response()->json([
             'status' => 200,
@@ -67,8 +80,8 @@ class ProductController extends Controller
         if ($request->hasfile('files')) {
             foreach ($request->file('files') as $file) {
                 $path = $file->store('public/products');
-                ProductFile::create([
-                    'name'          => Str::of($path)->replaceFirst('public', '/storage'),
+                StoreFiles::create([
+                    'path'          => Str::of($path)->replaceFirst('public', '/storage'),
                     'type'          => $file->extension(),
                     'size'          => $file->getSize(),
                     'product_id'    => $product->id
@@ -105,17 +118,18 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $this->validator($request->all())->validate();
         $request['slug'] = Str::slug($request['title']);
-        $product = Product::create($request->all());
-        foreach ($request->file('files') as $file) {
-            $path = $file->store('products');
-            ProductFile::create([
-                'name'          => $path,
-                'type'          => $file->extension(),
-                'size'          => $file->getSize(),
-                'product_id'    => $product->id
-            ]);
+        $product->update($request->all());
+        if ($request->file('files')) {
+            foreach ($request->file('files') as $file) {
+                $path = $file->store('products');
+                StoreFiles::create([
+                    'path'          => $path,
+                    'type'          => $file->extension(),
+                    'size'          => $file->getSize(),
+                    'product_id'    => $product->id
+                ]);
+            }
         }
         return response()->json([
             'status' => 201,

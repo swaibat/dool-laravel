@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Category;
 use App\Gallery;
 use App\Product;
+use App\Store;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class StoreResource extends JsonResource
@@ -18,20 +19,18 @@ class StoreResource extends JsonResource
     public function toArray($request)
     {
         $store = parent::toArray($request);
-        // $store['products'] = new ProductResourceCollection(Product::where('user_id', $this->user_id)->get());
         $categories = Category::find($this->category_id)->get();
-        // return $categories;
         $data = [];
         foreach ($categories as $category) {
-            // return $category['id'];
             if (!$category->parent_id) {
-                // $data[] = $category->id;
                 $sub_id = [$category->id];
                 foreach ($category->subs as $sub) {
-                    $sub['products'] = new ProductResourceCollection(Product::where(['category_id' => $sub['id'], 'user_id' => $category->user_id])->get());
+                    $sub['products'] = new ProductResourceCollection(Product::where([
+                        'category_id' => $sub['id'], 'store_id' => $this->id
+                    ])->get());
                     $sub_id[] =  $sub['id'];
                 }
-                $data[] = [
+                $data = [
                     'id'                => $category->id,
                     'name'              => $category->name,
                     'slug'              => $category->slug,
@@ -40,8 +39,9 @@ class StoreResource extends JsonResource
                 ];
             }
         }
-        $store['gallery'] = new GalleryResourceCollection(Gallery::where('user_id', $this->user_id)->get());
-        $store['categories'] = $data;
+        $store['gallery'] = new GalleryResourceCollection(Gallery::where(['user_id' => $this->user_id, 'public' => '1'])->get());
+        $store['products'] = new ProductResourceCollection($this->products);
+        $store['category'] = $data;
         return $store;
     }
 }

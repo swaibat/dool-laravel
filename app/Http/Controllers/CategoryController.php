@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryResourceCollection;
+use Illuminate\Support\Str;
+use App\StoreFiles;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -16,17 +18,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return new CategoryResourceCollection(Category::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json([
+            'status' => 200,
+            'data' => new CategoryResourceCollection(Category::all())
+        ]);
     }
 
     /**
@@ -37,7 +32,28 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'          => 'required|unique:categories|max:255|min:3',
+            'parent_id'     => 'nullable|exists:App\Category,id',
+            'image'         => 'nullable',
+        ]);
+        $request['slug'] = Str::slug($request['name']);
+        $category = Category::create($request->all());
+        if ($request->hasfile('image')) {
+            $path = $request->file('image')->store('public/categories');
+            StoreFiles::create([
+                'name'          => Str::of($path)->replaceFirst('public', '/storage'),
+                'label'         =>'categories',
+                'type'          => $request->file('image')->extension(),
+                'size'          => $request->file('image')->getSize(),
+                'category_id'   => $category->id
+            ]);
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => 'category created successfully',
+            'data' => new CategoryResource($category)
+        ]);
     }
 
     /**

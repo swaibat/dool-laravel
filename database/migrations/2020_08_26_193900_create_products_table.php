@@ -23,7 +23,6 @@ class CreateProductsTable extends Migration
             $table->string('sku')->nullable();
             $table->jsonb('collection_id')->nullable();
             $table->longText('description');
-            $table->string('category_id');
             $table->string('status');
             $table->string('seo_title')->nullable();
             $table->longText('seo_description')->nullable();
@@ -32,8 +31,10 @@ class CreateProductsTable extends Migration
             $table->jsonb('sizes')->nullable();
             $table->jsonb('materials')->nullable();
             $table->jsonb('colors')->nullable();
-            $table->bigInteger('user_id')->unsigned()->index()->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('category_id')->nullable();
+            // $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->bigInteger('store_id')->unsigned()->index()->nullable();
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFavouritesTable extends Migration
+class CreateStoreFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,20 @@ class CreateFavouritesTable extends Migration
      */
     public function up()
     {
-        Schema::create('favourites', function (Blueprint $table) {
+        Schema::create('store_files', function (Blueprint $table) {
             $table->id();
+            $table->string('path');
+            $table->string('type');
+            $table->string('size');
             $table->bigInteger('product_id')->unsigned()->index()->nullable();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->bigInteger('category_id')->unsigned()->index()->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->bigInteger('collection_id')->unsigned()->index()->nullable();
+            $table->foreign('collection_id')->references('id')->on('collections')->onDelete('cascade');
             $table->bigInteger('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('gallery_id')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +38,6 @@ class CreateFavouritesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('favourites');
+        Schema::dropIfExists('store_files');
     }
 }

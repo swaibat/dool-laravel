@@ -11,7 +11,13 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'parent_id', 'image'];
+    protected $fillable = ['name', 'slug', 'parent_id', 'image',];
+
+    // default route key
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function subs()
     {

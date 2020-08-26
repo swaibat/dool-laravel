@@ -15,13 +15,6 @@ class CategoryResourceCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        $collection = parent::toArray($request);
-        $categories =[];
-        foreach ($collection as $category) {
-            if ($category) {
-                $categories[]= $category;
-            }
-        };
-        return $categories;
+        return parent::toArray($request);
     }
 }

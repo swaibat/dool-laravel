@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Http\Resources\CategoryResourceCollection;
+use App\Http\Resources\ProductResourceCollection;
+use App\Http\Resources\ProductResource;
 use App\Http\Resources\StoreResource;
 use App\Http\Resources\StoreResourceCollection;
+use App\Product;
 use Illuminate\Support\Str;
 use App\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Stmt\TryCatch;
 
 class StoreController extends Controller
 {
@@ -20,23 +27,25 @@ class StoreController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name'                  => ['required', 'unique:stores', 'max:255', 'min:3'],
-            'address'               => ['required'],
-            'support_phone'         => ['nullable'],
-            'theme_id'              => ['nullable'],
-            'category_id'           => ['required'],
-            'user_id'               => ['nullable'],
-            'about_text'            => ['nullable'],
+            'name'                  => 'required|unique:stores|max:255|min:3',
+            'address'               => 'required',
+            'support_phone'         => 'required',
+            'theme_id'              => 'nullable',
+            'category_id'           => 'required|exists:App\Category,id',
+            'about_text'            => 'nullable',
         ]);
     }
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new StoreResourceCollection(Store::all());
+        return response()->json([
+            'status' => 200,
+            'data' => new StoreResourceCollection(Store::all())
+        ]);
     }
 
     /**
@@ -47,10 +56,16 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validator($request->all())->validate();
+        $request['user_id'] = auth('api')->user()->id;
         $request['slug'] = Str::slug($request['name']);
         $store = Store::create($request->all());
-        return new StoreResource($store);
+        return response()->json([
+            'status' => 201,
+            'message' => 'store created successfully',
+            'data' => new StoreResource($store)
+        ]);
     }
 
     /**
@@ -59,9 +74,47 @@ class StoreController extends Controller
      * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $store): StoreResource
+    public function products(Store $store)
     {
-        return new StoreResource($store);
+        return response()->json([
+            'status' => 200,
+            'data' => new ProductResourceCollection($store->products)
+        ]);
+    }
+
+    public function productShow(Request $request, Store $store, Product $product)
+    {
+        foreach ($store->products as $value) {
+            if ($value['id'] == $product['id']) {
+                $request['store_product'] = $product;
+            }
+        }
+        if ($request['store_product']) {
+            return response()->json([
+                'status' => 200,
+                'data' => new ProductResource($product)
+            ]);
+        } else {
+            return response()->json([
+                'status'    => 404,
+                'data'      => 'product not found in store'
+            ]);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Store  $store
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Store $store)
+    {
+
+        return response()->json([
+            'status' => 200,
+            'data' => new StoreResource($store)
+        ]);
     }
 
     /**
@@ -74,7 +127,11 @@ class StoreController extends Controller
     public function update(Request $request, Store $store)
     {
         $store->update($request->all());
-        return new StoreResource($store);
+        return response()->json([
+            'status' => 200,
+            'message' => 'store updated successfully',
+            'data' => new StoreResource($store)
+        ]);
     }
 
     /**
