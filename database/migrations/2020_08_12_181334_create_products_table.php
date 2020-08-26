@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('sku')->nullable();
             $table->jsonb('collection_id')->nullable();
             $table->longText('description');
-            $table->string('category_id');
+            $table->integer('category_id');
             $table->string('status');
             $table->string('seo_title')->nullable();
             $table->longText('seo_description')->nullable();

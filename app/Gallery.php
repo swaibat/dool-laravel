@@ -11,7 +11,7 @@ class Gallery extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'description', 'user_id'];
+    protected $fillable = ['name', 'slug', 'description', 'public', 'user_id'];
 
     // default route key
     public function getRouteKeyName()

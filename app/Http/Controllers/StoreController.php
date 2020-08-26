@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Http\Resources\CategoryResourceCollection;
+use App\Http\Resources\ProductResourceCollection;
 use App\Http\Resources\StoreResource;
 use App\Http\Resources\StoreResourceCollection;
+use App\Product;
 use Illuminate\Support\Str;
 use App\Store;
 use Illuminate\Http\Request;
@@ -29,13 +33,14 @@ class StoreController extends Controller
             'about_text'            => ['nullable'],
         ]);
     }
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
         return new StoreResourceCollection(Store::all());
     }
 
@@ -59,9 +64,15 @@ class StoreController extends Controller
      * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $store): StoreResource
+    public function show(Request $request, Store $store)
     {
-        return new StoreResource($store);
+        // if ($request->query('q')) {
+        //     return new ProductResourceCollection(Product::where('user_id', $store['user_id'])->get());
+        // } elseif ($request->query('category')) {
+        //     return new CategoryResourceCollection(Category::where('user_id', $store['user_id'])->get());
+        // } else {
+            return new StoreResource($store);
+        // };
     }
 
     /**

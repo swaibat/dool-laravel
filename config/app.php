@@ -2,14 +2,6 @@
 
 return [
 
-    'providers' => [
-        'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
-    ],
-    'aliases' => [
-        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
-        'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory',
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -61,6 +53,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+
+    // 'short_url' => preg_replace('#^https?://#', '', rtrim(env('APP_URL', 'http://localhost'),'/')),
 
     'asset_url' => env('ASSET_URL', null),
 

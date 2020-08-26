@@ -31,7 +31,7 @@ class StoreResource extends JsonResource
                     $sub['products'] = new ProductResourceCollection(Product::where(['category_id' => $sub['id'], 'user_id' => $category->user_id])->get());
                     $sub_id[] =  $sub['id'];
                 }
-                $data[] = [
+                $data = [
                     'id'                => $category->id,
                     'name'              => $category->name,
                     'slug'              => $category->slug,
@@ -40,8 +40,8 @@ class StoreResource extends JsonResource
                 ];
             }
         }
-        $store['gallery'] = new GalleryResourceCollection(Gallery::where('user_id', $this->user_id)->get());
-        $store['categories'] = $data;
+        $store['gallery'] = new GalleryResourceCollection(Gallery::where(['user_id' => $this->user_id, 'public' => '1'])->get());
+        $store['category'] = $data;
         return $store;
     }
 }

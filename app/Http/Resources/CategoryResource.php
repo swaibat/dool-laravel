@@ -32,6 +32,10 @@ class CategoryResource extends JsonResource
                 'updated_at'        => $this->updated_at,
             ];
             return $data;
+        } else {
+            $category = parent::toArray($request);
+            $category['products'] = new ProductResourceCollection(Product::where('category_id', $this->id)->get());
+            return $category;
         }
     }
 }

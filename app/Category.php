@@ -13,6 +13,12 @@ class Category extends Model
      */
     protected $fillable = ['name', 'slug', 'parent_id', 'image'];
 
+    // default route key
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function subs()
     {
         return $this->hasMany(Category::class, 'parent_id');

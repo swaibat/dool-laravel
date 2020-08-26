@@ -17,6 +17,7 @@ class CreateGalleriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->enum('public', ['0', '1'])->default('0');
             $table->longText('description')->nullable();
             $table->bigInteger('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
