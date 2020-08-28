@@ -6,25 +6,28 @@ import ProductView from './components/ProductView';
 import ShippingAdress from './components/ShippingAdress';
 import PaymentMethods from './components/PaymentMethods';
 import Stores from './components/Stores';
-import StoreView from './components/StoreView';
 import Cart from './components/Cart';
 import Register from './components/Register';
 
+const themeName = 'doko'
+const StoreView = require(`./themes/${themeName}/components/StoreView`).default;
 Vue.use(VueRouter);
 window.subdomain = location.host.match(/^(http?:\/\/)?([^.])*/)[0];
+
+const domain = location.host.startsWith(`${window.subdomain}.`)
 
 export default new VueRouter({
     routes: [{
             path: '/',
-            component: location.host.startsWith(`${window.subdomain}.`) ? StoreView : Home,
+            component: domain ? StoreView : Home,
         },
         {
             path: '/products',
-            component: Products,
+            component: !domain && Products,
         },
         {
             path: '/products/:slug',
-            component: ProductView,
+            component: !domain && ProductView,
         },
         {
             path: '/shopping_cart',

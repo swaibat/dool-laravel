@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-			<a class="navbar-brand" href="#">Fixed navbar</a>
+			<a class="navbar-brand" href="#">Doko</a>
 			<button
 				class="navbar-toggler"
 				type="button"
