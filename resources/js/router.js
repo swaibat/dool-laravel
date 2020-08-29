@@ -8,26 +8,37 @@ import PaymentMethods from './components/PaymentMethods';
 import Stores from './components/Stores';
 import Cart from './components/Cart';
 import Register from './components/Register';
+import store from './store'
+import Api from './api/stores'
 
-const themeName = 'doko'
-const StoreView = require(`./themes/${themeName}/components/StoreView`).default;
+let themez = store.state.themez()
+
+const StoreView = {
+    store: async () => {
+        const theme = await themez
+        return require(`./themes/${theme}/components/StoreView`).default
+    },
+    product: async () => {
+        const theme = await themez
+        require(`./themes/${theme}/components/Products`).default
+    }
+}
+
 Vue.use(VueRouter);
-window.subdomain = location.host.match(/^(http?:\/\/)?([^.])*/)[0];
-
-const domain = location.host.startsWith(`${window.subdomain}.`)
 
 export default new VueRouter({
+    base: process.env.APP_URL,
     routes: [{
             path: '/',
-            component: domain ? StoreView : Home,
+            component: store.state.subdomain ? StoreView.store : Home,
         },
         {
             path: '/products',
-            component: !domain && Products,
+            component: store.state.subdomain ? StoreView.product : Products,
         },
         {
             path: '/products/:slug',
-            component: !domain && ProductView,
+            component: ProductView,
         },
         {
             path: '/shopping_cart',
@@ -53,5 +64,6 @@ export default new VueRouter({
             component: Register,
         }
     ],
+
     mode: 'history',
 });

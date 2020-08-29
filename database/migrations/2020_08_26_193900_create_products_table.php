@@ -31,8 +31,8 @@ class CreateProductsTable extends Migration
             $table->jsonb('sizes')->nullable();
             $table->jsonb('materials')->nullable();
             $table->jsonb('colors')->nullable();
-            $table->integer('category_id')->nullable();
-            // $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->bigInteger('category_id')->unsigned()->index()->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->bigInteger('store_id')->unsigned()->index()->nullable();
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->timestamps();
@@ -46,6 +46,8 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('products');
+        Schema::enableForeignKeyConstraints();
     }
 }

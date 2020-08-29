@@ -19,10 +19,8 @@ class CreateStoresTable extends Migration
             $table->string('slug');
             $table->string('address');
             $table->string('support_phone');
-            $table->bigInteger('theme_id')->nullable();
-            $table->bigInteger('category_id')->nullable();
-            // $table->bigInteger('category_id')->unsigned()->index()->nullable();
-            // $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->bigInteger('category_id')->unsigned()->index()->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->bigInteger('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->longText('about_text')->nullable();

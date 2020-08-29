@@ -2,15 +2,7 @@
 	<div>
 		<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
 			<a class="navbar-brand" href="#">Default</a>
-			<button
-				class="navbar-toggler"
-				type="button"
-				data-toggle="collapse"
-				data-target="#navbarCollapse"
-				aria-controls="navbarCollapse"
-				aria-expanded="false"
-				aria-label="Toggle navigation"
-			>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarCollapse">
@@ -70,14 +62,7 @@
 									<div v-bind:key="gallery.id" v-for="gallery in store.gallery">
 										{{ gallery.name }}
 										<span v-if="gallery.files[0]">
-											<img
-												width="50"
-												class="rounded ml-2"
-												v-bind:key="file.id"
-												v-for="file in gallery.files"
-												:src="file.path"
-												alt
-											/>
+											<img width="50" class="rounded ml-2" v-bind:key="file.id" v-for="file in gallery.files" :src="file.path" alt />
 										</span>
 									</div>
 								</li>
@@ -110,7 +95,7 @@ export default {
 		};
 	},
 	mounted() {
-		$.get(`http://localhost:8000/api/v1/stores/${window.subdomain}`, (res) => (this.store = res.data));
+		$.get(`http://localhost:8000/api/v1/stores/${'maliku'}`, res => (this.store = res.data));
 	},
 };
 </script>

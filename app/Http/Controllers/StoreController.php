@@ -30,7 +30,7 @@ class StoreController extends Controller
             'name'                  => 'required|unique:stores|max:255|min:3',
             'address'               => 'required',
             'support_phone'         => 'required',
-            'theme_id'              => 'nullable',
+            'theme_id'              => 'required|exists:App\Theme,id',
             'category_id'           => 'required|exists:App\Category,id',
             'about_text'            => 'nullable',
         ]);
@@ -56,7 +56,6 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-
         $this->validator($request->all())->validate();
         $request['user_id'] = auth('api')->user()->id;
         $request['slug'] = Str::slug($request['name']);

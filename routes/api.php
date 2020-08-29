@@ -31,9 +31,11 @@ Route::group([
     Route::get('stores/{store}/products/{product}', 'StoreController@productShow');
     Route::get('/categories', 'CategoryController@index');
     Route::get('/categories/{category}', 'CategoryController@show');
-    Route::get('stores/{store}/products/{product}',[
-        'uses'=>'StoreController@productShow',
-        'as'=>'product-show'
+    Route::get('/themes', 'ThemeController@index');
+    Route::get('/themes/{theme}', 'ThemeController@show');
+    Route::get('stores/{store}/products/{product}', [
+        'uses' => 'StoreController@productShow',
+        'as' => 'product-show'
     ]);
     Route::group([
         'middleware' => 'auth:api'

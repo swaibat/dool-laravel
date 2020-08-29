@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Category;
 use App\Gallery;
 use App\Product;
-use App\Store;
+use App\Theme;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class StoreResource extends JsonResource
@@ -42,6 +42,7 @@ class StoreResource extends JsonResource
         $store['gallery'] = new GalleryResourceCollection(Gallery::where(['user_id' => $this->user_id, 'public' => '1'])->get());
         $store['products'] = new ProductResourceCollection($this->products);
         $store['category'] = $data;
+        $store['theme'] = Theme::find($this->theme_id)->firstOrFail();
         return $store;
     }
 }
