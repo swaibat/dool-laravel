@@ -27,6 +27,9 @@ export default {
 	},
 	components: {
 		Product,
-	},
+    },
+    mounted(){
+        console.log(this.$store);
+    }
 };
 </script>

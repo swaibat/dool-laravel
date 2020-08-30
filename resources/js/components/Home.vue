@@ -6,5 +6,5 @@
 export default {
 	name: 'Home',
 };
-console.log(this)
+// console.log(this.store)
 </script>

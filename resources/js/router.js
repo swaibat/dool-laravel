@@ -16,11 +16,15 @@ let themez = store.state.themez()
 const StoreView = {
     store: async () => {
         const theme = await themez
-        return require(`./themes/${theme}/components/StoreView`).default
+        return require(`./themes/${theme}/components/Main`).default
     },
     product: async () => {
         const theme = await themez
-        require(`./themes/${theme}/components/Products`).default
+        return require(`./themes/${theme}/components/Products`).default
+    },
+    productDetails: async () => {
+        const theme = await themez
+        return require(`./themes/${theme}/components/ProductDetail`).default
     }
 }
 
@@ -38,7 +42,7 @@ export default new VueRouter({
         },
         {
             path: '/products/:slug',
-            component: ProductView,
+            component: store.state.subdomain ? StoreView.productDetails : ProductView,
         },
         {
             path: '/shopping_cart',

@@ -11,11 +11,13 @@ const subHost = location.host.match(/^(http?:\/\/)?([^.])*/)[0]
 export default new Vuex.Store({
     state: {
         themez: async () => {
-            const res = await Api.getSingleStore(subHost)
-            return res.data.theme.name;
+            if (location.host.startsWith(`${subHost}.`)) {
+                const res = await Api.getSingleStore(subHost)
+                return res.data.theme.name;
+            }
         },
         subdomain: location.host.startsWith(`${subHost}.`) ?
-            subHost : null,
+            subHost : false,
     },
     modules: {
         products,

@@ -6,20 +6,21 @@ const storeModules = {
     },
     getters: {
         allStores: state => state.stores,
-        // singleStore: state => state.store
+        singleStore: state => state.store
     },
     actions: {
         async getStores({commit}){
             const res = await api.getAllStores();
             commit('setStores',res.data)
         },
-        // async getStore({commit},store){
-        //     const res = await api.getAllStores(store);
-        //     commit('setStores',res.data)
-        // }
+        async getStore({commit}){
+            const res = await api.getAllStores();
+            commit('setStore',res.data)
+        }
     },
     mutations: {
-        setStores:(state,stores)=>(state.stores = stores)
+        setStores:(state,stores)=>(state.stores = stores),
+        setStore:(state,store)=>(state.store = store)
     },
 }
 
