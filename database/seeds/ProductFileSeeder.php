@@ -12,13 +12,20 @@ class ProductFileSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('product_files')->insert([
-            'name'          => '1597314236-Screenshot 2020-08-05 at 08.37.33.png',
+        DB::table('product_files')->insert([[
+            'name'          => '/storage/products/EZLrQr6h64YdajxwkLzVXZ71nsR4eIyEaTa3vhi1.jpeg',
             'type'          => 'images/png',
             'size'          => '239',
             'product_id'    => 1,
             'created_at'   => now(),
             'updated_at'   => now(),
-        ]);
+        ],[
+            'name'          => '/storage/products/j93FvqcuiyX1IjrQEosHxK6O4ynBYodHaJdK15RZ.png',
+            'type'          => 'images/png',
+            'size'          => '239',
+            'product_id'    => 2,
+            'created_at'   => now(),
+            'updated_at'   => now(),
+        ]]);
     }
 }

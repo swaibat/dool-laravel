@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+
     protected $table = 'products';
     protected $primaryKey = 'id';
     /**
@@ -13,24 +14,20 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'slug', 'price', 'discount', 'discount_type', 'sku', 'collection_id', 'vendor_id', 'description', 'category_id', 'status', 'seo_title', 'seo_description', 'social_title', 'social_description', 'sizes', 'materials', 'colors'];
+    protected $fillable = ['title', 'slug', 'price', 'discount', 'discount_type', 'sku', 'collection_id', 'store_id', 'description', 'category_id', 'status', 'seo_title', 'seo_description', 'social_title', 'social_description', 'sizes', 'materials', 'colors'];
+
+    // default route key
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function files()
     {
-        return $this->hasMany(ProductFile::class);
+        return $this->hasMany(StoreFiles::class);
     }
-
-    public function collection()
+    public function store()
     {
-        return $this->belongsTo(Collection::class);
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-    public function favourite()
-    {
-        return $this->hasOne(favourite::class);
+        return $this->belongsTo(Store::class);
     }
 }

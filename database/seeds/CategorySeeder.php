@@ -45,6 +45,38 @@ class CategorySeeder extends Seeder
                 'image'         => null,
                 'created_at'    => now(),
                 'updated_at'    => now(),
+            ],
+            [
+                'name'          => 'fashon',
+                'slug'          => Str::slug('fashion'),
+                'parent_id'     => null,
+                'image'         => null,
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ],
+            [
+                'name'          => 'shoes',
+                'slug'          => Str::slug('shoes'),
+                'parent_id'     => 5,
+                'image'         => null,
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ],
+            [
+                'name'          => 'dresses',
+                'slug'          => Str::slug('dresses'),
+                'parent_id'     => 5,
+                'image'         => null,
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ],
+            [
+                'name'          => 'pants',
+                'slug'          => Str::slug('pants'),
+                'parent_id'     => 5,
+                'image'         => null,
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ]
         ]);
     }

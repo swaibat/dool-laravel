@@ -1,5 +1,7 @@
 <?php
 
+use App\Product;
+use App\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,20 +16,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::group([
+    'prefix' => 'v1'
+], function () {
+    Route::post('auth/login', 'AuthController@login');
+    Route::post('auth/register', 'AuthController@signup');
+    Route::get('/products', 'ProductController@index');
+    Route::get('/products/{product}', 'ProductController@show');
+    Route::get('/stores', 'StoreController@index');
+    Route::get('/stores/{store}', 'StoreController@show');
+    Route::get('/stores/{store}/', 'StoreController@show');
+    Route::get('stores/{store}/products', 'StoreController@products');
+    Route::get('stores/{store}/products/{product}', 'StoreController@productShow');
+    Route::get('/categories', 'CategoryController@index');
+    Route::get('/categories/{category}', 'CategoryController@show');
+    Route::get('/themes', 'ThemeController@index');
+    Route::get('/themes/{theme}', 'ThemeController@show');
+    Route::get('stores/{store}/products/{product}', [
+        'uses' => 'StoreController@productShow',
+        'as' => 'product-show'
+    ]);
+    Route::group([
+        'middleware' => 'auth:api'
+    ], function () {
+        Route::get('auth/logout', 'AuthController@logout');
+        Route::get('auth/user', 'AuthController@user');
+        Route::post('/products', 'ProductController@store');
+        Route::patch('/products/{product}', 'ProductController@update');
+        Route::delete('/products/{product}', 'ProductController@destroy');
+        Route::post('/categories', 'CategoryController@store');
+        Route::patch('/categories/{category}', 'CategoryController@update');
+        Route::delete('/categories/{category}', 'CategoryController@destroy');
+        Route::post('/stores', 'StoreController@store');
+        Route::patch('/stores/{store}', 'StoreController@update');
+        Route::delete('/stores/{store}', 'StoreController@destroy');
+    });
 });
-Route::resource('products', 'ProductController');
-Route::resource('collections', 'CollectionController');
-Route::resource('coupons', 'CouponController');
-Route::resource('categories', 'CategoryController');
-Route::resource('payments', 'PaymentController');
-Route::resource('orders', 'OrderController');
-Route::resource('favourite', 'FavouriteController');
-Route::resource('users', 'UserController');
-// Route::group(['prefix' => 'Auth'], function () {
-//     Route::post('register', 'RegisterController');
-//     Route::post('login', 'AuthController@login');
-//     Route::get('logout', 'AuthController@logout');
-//     Route::get('user', 'AuthController@getAuthUser');
-// });
