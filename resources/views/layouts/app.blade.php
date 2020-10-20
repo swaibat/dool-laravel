@@ -26,5 +26,10 @@
         @yield('content')
     </div>
 </body>
-
+<script type="application/javascript" defer src="{{ asset('vendor/lightbox2/js/lightbox.min.js') }}"></script>
+<script type="application/javascript" defer src="{{ asset('vendor/nouislider/nouislider.min.js') }}"></script>
+<script type="application/javascript" defer src="{{ asset('vendor/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
+<script type="application/javascript" defer src="{{ asset('vendor/owl.carousel2/owl.carousel.min.js') }}"></script>
+<script type="application/javascript" defer src="{{ asset('vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js') }}"></script>
+<script type="application/javascript" defer src="{{ asset('js/front.js"></script>
 </html>

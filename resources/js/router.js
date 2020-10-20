@@ -6,23 +6,43 @@ import ProductView from './components/ProductView';
 import ShippingAdress from './components/ShippingAdress';
 import PaymentMethods from './components/PaymentMethods';
 import Stores from './components/Stores';
-import StoreView from './components/StoreView';
 import Cart from './components/Cart';
 import Register from './components/Register';
+import store from './store'
+import Api from './api/stores'
+
+let themez = store.state.themez()
+
+const StoreView = {
+    store: async () => {
+        const theme = await themez
+        return require(`./themes/${theme}/components/Main`).default
+    },
+    product: async () => {
+        const theme = await themez
+        return require(`./themes/${theme}/components/Products`).default
+    },
+    productDetails: async () => {
+        const theme = await themez
+        return require(`./themes/${theme}/components/ProductDetail`).default
+    }
+}
+
 Vue.use(VueRouter);
-const subdomain = location.host.match(/^(http?:\/\/)?([^.])*/);
+
 export default new VueRouter({
+    base: process.env.APP_URL,
     routes: [{
             path: '/',
-            component: subdomain ? StoreView : Home,
+            component: store.state.subdomain ? StoreView.store : Home,
         },
         {
             path: '/products',
-            component: Products,
+            component: store.state.subdomain ? StoreView.product : Products,
         },
         {
             path: '/products/:slug',
-            component: ProductView,
+            component: store.state.subdomain ? StoreView.productDetails : ProductView,
         },
         {
             path: '/shopping_cart',
@@ -48,5 +68,6 @@ export default new VueRouter({
             component: Register,
         }
     ],
+
     mode: 'history',
 });

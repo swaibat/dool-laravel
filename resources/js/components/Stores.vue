@@ -26,7 +26,7 @@ export default {
 		};
 	},
 	mounted() {
-        $.get('/api/stores', res => (this.stores = res.data));
+        $.get('/api/v1/stores', res => (this.stores = res.data));
         console.log(this.$route);
 	},
 	methods: {},

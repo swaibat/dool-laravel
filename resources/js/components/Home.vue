@@ -6,4 +6,5 @@
 export default {
 	name: 'Home',
 };
+// console.log(this.store)
 </script>

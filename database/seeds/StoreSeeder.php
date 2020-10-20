@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class StoreSeeder extends Seeder
 {
@@ -15,7 +16,7 @@ class StoreSeeder extends Seeder
         DB::table('stores')->insert([
             [
                 'name'              => 'dool',
-                'slug'              =>  'dool',
+                'slug'              => 'dool',
                 'address'           => 'new york, UK',
                 'support_phone'     => '0758307272',
                 'theme_id'          => 1,

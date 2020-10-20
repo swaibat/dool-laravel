@@ -17,4 +17,14 @@ class Store extends Model
     {
         return 'slug';
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
