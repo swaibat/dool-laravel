@@ -1,18 +1,6 @@
-# news-room
+# fnWidget
 
-[![Build Status](https://travis-ci.com/swaibat/news-room.svg?branch=main)](https://travis-ci.com/swaibat/news-room)
-
-News Room App is A ReactJS app for fetching news from  [newsapi.org](https://newsapi.org/) that enebales users to :
-
-- Get News detail with image
-- Visit Link to open original news
-- Have 3 web navigation view at home and it will show a list about:
-
-  i. Top Headline news with image
-  
-  ii. Custom news based on user preferences (user must be presented with
-keyword selection from bitcoin, Apple, earthquake, animal. User can only choose
-one keyword)
+This is the funnel widget that allows users to configure HotJar funnels by automatically selecting site URLs and and css Selectors they wish to track (for example: visit to www.site.com, click on #purchase-button in www.site.com/product, visit to www.site.com/cart).
 
 
 
@@ -22,10 +10,6 @@ one keyword)
 - [Testing](#Testing)
 - [Stacks](#Stacks)
 - [Author details](#Author)
-
-## File-structure
-
-<img width="223" alt="Screenshot 2020-12-06 at 10 19 33" src="https://user-images.githubusercontent.com/41104288/101274169-e4f38800-37ac-11eb-91b2-06d37d88256e.png">
 
 
 ## Installation
@@ -59,7 +43,7 @@ the app will be accessible on `localhost:3000`
     - a user can close a selector
 - user can close a funnel by clicking on the close button
 - a user can re-open the funnel by clicking on open button
-- 
+
 I have put up a small video tutorial to keep you up to speed with how the application can be used
 
 ## Testing
@@ -86,7 +70,8 @@ i have used:
 - I need to provide human readable selector elements
 - user should be able to edit the selected title
 - test all application cases and incease test coverage currently at `93%`
-
+- add gitlab ci
+- fix eslint issues
 
 ## Author
 [Rumbiiha Swaibu](https://gitlab.com/rswaib)
