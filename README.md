@@ -17,9 +17,9 @@ one keyword)
 
 
 ## Table of Contents
-- [File structure](#File-structure)
 - [Installation](#Installation)
 - [Usage](#Usage)
+- [Testing](#Testing)
 - [Stacks](#Stacks)
 - [Author details](#Author)
 
@@ -62,15 +62,6 @@ the app will be accessible on `localhost:3000`
 - 
 I have put up a small video tutorial to keep you up to speed with how the application can be used
 
-## Stacks
-i have used:
-- javascript
-- webpack
-- babel
-**developent**
-- eslint
-- jest
-
 ## Testing
 i have used **JEST** as the main testing libriary in order to test on the root folder `cd widget` and run 
  ```sh
@@ -81,6 +72,15 @@ additionally in order to run tests with coverage use
  $ npx jest --coverage
  ```
  
+## Stacks
+i have used:
+- javascript
+- webpack
+- babel
+**developent**
+- eslint
+- jest
+
 
 ## todo
 - I need to provide human readable selector elements
