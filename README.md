@@ -2,7 +2,7 @@
 
 This is the funnel widget that allows users to configure HotJar funnels by automatically selecting site URLs and and css Selectors they wish to track (for example: visit to www.site.com, click on #purchase-button in www.site.com/product, visit to www.site.com/cart).
 
-
+<iframe width="560" height="315" src="https://www.youtube.com/embed/It_S04B7tt8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Table of Contents
 - [Installation](#Installation)
